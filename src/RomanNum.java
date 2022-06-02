@@ -21,7 +21,7 @@ public enum RomanNum {
     }
 
     public String toString() {
-        return strValue;
+        return this.name();
     }
     public static List<RomanNum> getReverseSortedValues() {
         return Arrays.stream(values())

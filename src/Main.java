@@ -105,18 +105,28 @@ public class Main {
         return output;
     }
     static int  romanToArabicNumber(String input) { //convert Roman number to Arabic
-        int outNumber = -1;
-        if (input.length() == 1) {
-            char ch = input.charAt(0);
-            int tmp = ch - ROME_OFFSET;
-            //System.out.println("ch = " + tmp);
-            if (tmp > 0x00 && tmp < 0x0B) {
-                outNumber = tmp;
-            } else if (tmp > 0x10 && tmp < 0x1A) {
-                outNumber = tmp - 0x10;
+        String romanNumeral = input.toUpperCase();
+        int result = 0;
+
+        List<RomanNum> romanNumerals = RomanNum.getReverseSortedValues();
+
+        int i = 0;
+
+        while ((romanNumeral.length() > 0) && (i < romanNumerals.size())) {
+            RomanNum symbol = romanNumerals.get(i);
+            if (romanNumeral.startsWith(symbol.name())) {
+                result += symbol.getValue();
+                romanNumeral = romanNumeral.substring(symbol.name().length());
+            } else {
+                i++;
             }
         }
-        return outNumber;
+
+        if (romanNumeral.length() > 0) {
+            throw new IllegalArgumentException(input + " cannot be converted to a Roman Numeral");
+        }
+
+        return result;
     }
 
     static String  arabicToRomanNumber(int number) { //convert Arabic number to Roman
